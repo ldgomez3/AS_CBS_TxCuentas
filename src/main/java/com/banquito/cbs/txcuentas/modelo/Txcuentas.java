@@ -4,40 +4,53 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.ToString;
 
+@Entity
+@Table(name = "TRANSACCIONES")
 @Data
 @ToString
 public class Txcuentas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id; 
+    private Integer id;
 
-    @Column(name = "id_cliente", nullable = false)
-    private Integer idCliente;
+    @Column(name = "ID_CUENTA", nullable = false)
+    private Integer idCuenta;
 
-    @Column(name = "tipo", length = 3, nullable = false)
+    @Column(name = "TIPO", length = 3, nullable = false)
     private String tipo;
 
-    @Column(name = "numero", length = 20, nullable = false)
-    private String numero;
+    @Column(name = "CODIGO_UNICO", length = 64)
+    private String codigoUnico;
 
-    @Column(name = "saldo_total", precision = 20, scale = 2)
-    private BigDecimal saldoTotal;
+    @Column(name = "CANAL", length = 3)
+    private String canal;
 
-    @Column(name = "saldo_disponible", precision = 20, scale = 2)
-    private BigDecimal saldoDisponible;
+    @Column(name = "FECHA_HORA")
+    private OffsetDateTime fechaHora;
 
-    @Column(name = "saldo_acreditar", precision = 20, scale = 2)
-    private BigDecimal saldoAcreditar;
+    @Column(name = "MONTO", precision = 20, scale = 2)
+    private BigDecimal monto;
 
-    @Column(name = "estado", length = 3)
+    @Column(name = "REFERENCIA", length = 50)
+    private String referencia;
+
+    @Column(name = "APLICA_IMPUESTO")
+    private Boolean aplicaImpuesto;
+
+    @Column(name = "ESTADO", length = 3)
     private String estado;
 
-    @Column(name = "fecha_creacion", nullable = false)
-    private OffsetDateTime fechaCreacion;
+    @Column(name = "FECHA_AUTORIZACION")
+    private OffsetDateTime fechaAutorizacion;
+
+    @Column(name = "CODIGO_TRANSACCION_PADRE", length = 64)
+    private String codigoTransaccionPadre;
 }
