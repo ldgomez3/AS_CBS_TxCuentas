@@ -1,4 +1,4 @@
-package com.banquito.cbs.txcuentas.servicio;
+package com.banquito.cbs.txcuentas.controlador.mapper;
 
 import org.springframework.stereotype.Component;
 import com.banquito.cbs.txcuentas.modelo.Txcuentas;
@@ -40,4 +40,4 @@ public class TxCuentaMapper {
         transaccion.setCodigoTransaccionPadre(dto.getCodigoTransaccionPadre());
         return transaccion;
     }
-}
+} 
