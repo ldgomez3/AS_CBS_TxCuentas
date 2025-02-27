@@ -10,12 +10,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.ToString;
 
 @Entity
 @Table(name = "TRANSACCIONES")
 @Data
-@ToString
 public class Txcuentas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
