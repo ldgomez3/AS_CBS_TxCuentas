@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class InicioContrller {
     @GetMapping
     public ResponseEntity<String> inicio() {
-        return ResponseEntity.ok("Micorservicio de Cuentas");
+        return ResponseEntity.ok("Micorservicio de TXCuentas");
     }
 }
