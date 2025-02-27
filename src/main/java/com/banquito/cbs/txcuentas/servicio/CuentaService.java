@@ -12,7 +12,7 @@ import com.banquito.cbs.txcuentas.excepcion.EntidadNoEncontradaException;
 import com.banquito.cbs.txcuentas.excepcion.OperacionInvalidaException;
 import com.banquito.cbs.txcuentas.modelo.Txcuentas;
 import com.banquito.cbs.txcuentas.repositorio.TxCuentaRepository;
-import com.banquito.cbs.txcuentas.dto.CuentaRequestDto;
+import com.banquito.cbs.txcuentas.controlador.mapper.TxCuentaMapper;
 
 @Service
 public class CuentaService {
@@ -76,8 +76,21 @@ public class CuentaService {
     }
 
     @Transactional
-    public TransaccionDto procesarTransaccion(CuentaRequestDto cuentaRequest, TransaccionDto transaccionDto) throws OperacionInvalidaException {
-        transaccionDto.setIdCuenta(cuentaRequest.getId());
+    public TransaccionDto procesarTransaccion(Integer idCuenta, TransaccionDto transaccionDto) 
+            throws OperacionInvalidaException {
+        if (transaccionDto.getMonto() == null || transaccionDto.getMonto().signum() <= 0) {
+            throw new OperacionInvalidaException("El monto debe ser mayor que cero");
+        }
+
+        transaccionDto.setIdCuenta(idCuenta);
         return crearTransaccion(transaccionDto);
+    }
+
+    @Transactional(readOnly = true)
+    public List<TransaccionDto> buscarTodasLasTransacciones() {
+        return txCuentaRepository.findAll()
+                .stream()
+                .map(txCuentaMapper::toDto)
+                .collect(Collectors.toList());
     }
 }
