@@ -44,31 +44,30 @@ public class CuentaService {
 
         // consutar el id integer para el siguiente registro
         transaccion.setId(txCuentaRepository.getSiguienteId());
-        
-        //var txNueva =  txCuentaRepository.guardarTxCuenta(transaccion);
+
+        // var txNueva = txCuentaRepository.guardarTxCuenta(transaccion);
 
         txCuentaRepository.insertarTransaccion(
-            transaccion.getId(),
-            transaccion.getIdCuenta(),
-            transaccion.getTipo(),
-            transaccion.getCodigoUnico(),
-            transaccion.getCanal(),
-            transaccion.getFechaHora(),
-            transaccion.getMonto(),
-            transaccion.getReferencia(),
-            transaccion.getAplicaImpuesto(),
-            transaccion.getEstado(),
-            transaccion.getFechaAutorizacion(),
-            transaccion.getCodigoTransaccionPadre()
-        );
-
+                transaccion.getId(),
+                transaccion.getIdCuenta(),
+                transaccion.getTipo(),
+                transaccion.getCodigoUnico(),
+                transaccion.getCanal(),
+                transaccion.getFechaHora(),
+                transaccion.getMonto(),
+                transaccion.getReferencia(),
+                transaccion.getAplicaImpuesto(),
+                transaccion.getEstado(),
+                transaccion.getFechaAutorizacion(),
+                transaccion.getCodigoTransaccionPadre());
 
         txCuentaRepository.flush();
         return txCuentaMapper.toDto(transaccion);
     }
 
     @Transactional
-    public TransaccionDto actualizarEstadoTransaccion(Integer id, String nuevoEstado) throws OperacionInvalidaException {
+    public TransaccionDto actualizarEstadoTransaccion(Integer id, String nuevoEstado)
+            throws OperacionInvalidaException {
         Txcuentas transaccion = txCuentaRepository.findById(id)
                 .orElseThrow(() -> new EntidadNoEncontradaException("Transacción no encontrada con ID: " + id));
 
@@ -100,13 +99,13 @@ public class CuentaService {
     /**
      * Procesa una nueva transacción bancaria.
      *
-     * @param idCuenta ID de la cuenta asociada
+     * @param idCuenta       ID de la cuenta asociada
      * @param transaccionDto Datos de la transacción
      * @return TransaccionDto con los datos de la transacción procesada
      * @throws OperacionInvalidaException si el monto es inválido
      */
     @Transactional
-    public TransaccionDto procesarTransaccion(TransaccionDto transaccionDto) 
+    public TransaccionDto procesarTransaccion(TransaccionDto transaccionDto)
             throws OperacionInvalidaException {
         if (transaccionDto.getMonto() == null || transaccionDto.getMonto().signum() <= 0) {
             throw new OperacionInvalidaException("El monto debe ser mayor que cero");
@@ -121,4 +120,6 @@ public class CuentaService {
                 .map(txCuentaMapper::toDto)
                 .collect(Collectors.toList());
     }
+
+    
 }

@@ -39,20 +39,26 @@ public class CuentaController {
     }
 
     @GetMapping("/cuenta/{idCuenta}")
-    @Operation(summary = "Obtener transacciones por cuenta", 
-              description = "Obtiene todas las transacciones asociadas a una cuenta específica")
+    @Operation(summary = "Obtener transacciones por cuenta", description = "Obtiene todas las transacciones asociadas a una cuenta específica")
     public List<TransaccionDto> obtenerTransacciones(
-            @Parameter(description = "ID de la cuenta", required = true, example = "1001")
-            @PathVariable(name = "idCuenta", required = true) Integer idCuenta) {
+            @Parameter(description = "ID de la cuenta", required = true, example = "1001") @PathVariable(name = "idCuenta", required = true) Integer idCuenta) {
         return cuentaService.buscarTransaccionesPorCuenta(idCuenta);
     }
 
     @PostMapping("/cuenta/transaccion")
-    @Operation(summary = "Crear nueva transacción",
-              description = "Registra una nueva transacción para la cuenta especificada")
+    @Operation(summary = "Crear nueva transacción", description = "Registra una nueva transacción para la cuenta especificada")
     public TransaccionDto procesarTransaccion(
-            @Parameter(description = "Datos de la transacción", required = true)
-            @RequestBody TransaccionDto transaccionDto) throws OperacionInvalidaException {
+            @Parameter(description = "Datos de la transacción", required = true) @RequestBody TransaccionDto transaccionDto)
+            throws OperacionInvalidaException {
         return cuentaService.procesarTransaccion(transaccionDto);
+    }
+
+    @GetMapping("/transaccion/{id}")
+    @Operation(summary = "Obtener transacción por ID", description = "Obtiene una transacción específica utilizando su ID")
+    @ApiResponse(responseCode = "200", description = "Transacción obtenida exitosamente")
+    @ApiResponse(responseCode = "404", description = "Transacción no encontrada")
+    public TransaccionDto obtenerTransaccionPorId(
+            @Parameter(description = "ID de la transacción", required = true, example = "1") @PathVariable Integer id) {
+        return cuentaService.buscarTransaccionPorId(id);
     }
 }
